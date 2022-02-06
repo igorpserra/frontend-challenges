@@ -9,7 +9,7 @@
       transition="fade-transition"
     >
       <div class="title">
-        <p class="font-title">{{ item.title }}</p>
+        <p class="font-title">{{item.title}}</p>
       </div>
     </v-carousel-item>
   </v-carousel>

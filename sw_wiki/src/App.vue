@@ -12,7 +12,7 @@
             width="40"
           />
 
-          <v-img
+         <v-img
             alt="Star Wars Wiki Name"
             class="shrink mt-1 hidden-sm-and-down d-flex align-start"
             contain
@@ -30,11 +30,11 @@
         </v-btn>
       </v-app-bar>
 
-      <v-main class="appb">
+      <v-main class="appback">
         <router-view />
       </v-main>
 
-      <v-footer class="appb">
+      <v-footer class="appback">
         <v-bottom-navigation v-model="value" dark>
           <v-btn
             value="creator"
@@ -60,7 +60,7 @@ export default {
 };
 </script>
 <style>
-  .appb{
+  .appback{
     background: 
       url("https://cdn.wallpapersafari.com/81/5/tpObWP.png");
   }
