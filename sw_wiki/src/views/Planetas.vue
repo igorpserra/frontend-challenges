@@ -14,7 +14,7 @@
             <card-planeta
               v-for="(planeta, index) in planetasResponse.results"
               :key="index"
-              :idCard ="'card_'+index"
+              :idCard ="'card_planeta_'+index"
               :planeta="planeta"
               class="col-4"
             >

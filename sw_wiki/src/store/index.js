@@ -9,6 +9,10 @@ export default new Vuex.Store({
     planetasResponse: null,
     planeta : null,
 
+    //variaveis de nave
+    navesResponse: null,
+    nave: null,
+
     //variavel de controle dos card global
     globalCard : null,
 
@@ -28,6 +32,9 @@ export default new Vuex.Store({
     },
     UPDATE_PLANETA(state, payload){
       state.planeta = payload
+    },
+    UPDATE_NAVES(state, payload){
+      state.navesResponse = payload
     },
     UPDATE_PESSOA_EXTERNA(state, payload){
       state.pessoaExterna = payload
@@ -59,7 +66,30 @@ export default new Vuex.Store({
           context.commit("UPDATE_PLANETAS", rj)
         })
     },
+
     //ACOES REFERENTES A PAGINA DE NAVES
+    fetchNaves(context, url){
+      fetch(url)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_NAVES", rj)
+        })
+    },
+    nextPageNaves(context){
+      fetch(context.state.navesResponse.next)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_NAVES", rj)
+        })
+    },
+    prevPageNaves(context){
+      fetch(context.state.navesResponse.previous)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_NAVES", rj)
+        })
+    },
+
     //ACOES REFERENTES A PAGINA DE VEICULOS
     //ACOES REFERENTES A PAGINA DE PESSOAS
     async fetchPessoa(context, url){
