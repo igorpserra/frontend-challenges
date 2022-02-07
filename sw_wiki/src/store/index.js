@@ -25,6 +25,10 @@ export default new Vuex.Store({
     filmesResponse: null,
     filme: null,
 
+    //variaveis de filme
+    especiesResponse: null,
+    especie: null,
+
     //variavel de controle dos card global
     globalCard : null,
 
@@ -60,6 +64,9 @@ export default new Vuex.Store({
     },
     UPDATE_FILMES(state, payload){
       state.filmesResponse = payload
+    },
+    UPDATE_ESPECIES(state, payload){
+      state.especiesResponse = payload
     },
 
     UPDATE_PESSOA_EXTERNA(state, payload){
@@ -183,6 +190,29 @@ export default new Vuex.Store({
         })
     },
 
+    //ACOES REFERENTES A PAGINA DE ESPECIES
+    fetchEspecies(context, url){
+      fetch(url)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_ESPECIES", rj)
+        })
+    },
+    nextPageEspecies(context){
+      fetch(context.state.especiesResponse.next)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_ESPECIES", rj)
+        })
+    },
+    prevPageEspecies(context){
+      fetch(context.state.especiesResponse.previous)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_ESPECIES", rj)
+        })
+    },
+
     //ACOES DE CONSULTAS EXTERNAS
     async fetchPessoasExternas(context, listaMoradores){
       context.commit("UPDATE_PESSOA_EXTERNA", listaMoradores)
@@ -200,7 +230,7 @@ export default new Vuex.Store({
       context.commit("UPDATE_NAVE_EXTERNA", listaNaves)
     },
     async fetchMundoExterno(context, mundoExterno){
-      context.commit("UPDATE_MUNDO_EXTERNO", mundoExterno)
+        context.commit("UPDATE_MUNDO_EXTERNO", mundoExterno)
     },
   },
   modules: {
