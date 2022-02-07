@@ -63,7 +63,6 @@ export default {
   name: "CardVeiculo",
   data: () => ({
     reveal: false,
-    pilotos : [],
   }),
   props: {
     title: String,

@@ -65,7 +65,6 @@ export default {
   name: "CardNave",
   data: () => ({
     reveal: false,
-    pilotos : [],
   }),
   props: {
     title: String,

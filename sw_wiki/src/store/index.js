@@ -21,6 +21,10 @@ export default new Vuex.Store({
     pessoasResponse: null,
     pessoa: null,
 
+    //variaveis de filme
+    filmesResponse: null,
+    filme: null,
+
     //variavel de controle dos card global
     globalCard : null,
 
@@ -38,6 +42,7 @@ export default new Vuex.Store({
     UPDATE_GLOBAL_CARD(state, payload){
       state.globalCard = payload
     },
+
     UPDATE_PLANETAS(state, payload){
       state.planetasResponse = payload
     },
@@ -53,6 +58,10 @@ export default new Vuex.Store({
     UPDATE_PESSOAS(state, payload){
       state.pessoasResponse = payload
     },
+    UPDATE_FILMES(state, payload){
+      state.filmesResponse = payload
+    },
+
     UPDATE_PESSOA_EXTERNA(state, payload){
       state.pessoaExterna = payload
     },
@@ -165,6 +174,15 @@ export default new Vuex.Store({
         })
     },
 
+    //ACOES REFERENTES A PAGINA DE FILMES
+    fetchFilmes(context, url){
+      fetch(url)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_FILMES", rj)
+        })
+    },
+
     //ACOES DE CONSULTAS EXTERNAS
     async fetchPessoasExternas(context, listaMoradores){
       context.commit("UPDATE_PESSOA_EXTERNA", listaMoradores)
@@ -183,7 +201,7 @@ export default new Vuex.Store({
     },
     async fetchMundoExterno(context, mundoExterno){
       context.commit("UPDATE_MUNDO_EXTERNO", mundoExterno)
-    }
+    },
   },
   modules: {
   }

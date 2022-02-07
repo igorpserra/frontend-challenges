@@ -2,20 +2,17 @@
   <div>
     <v-card class="mx-auto mt-2" max-width="370">
       <v-card-text>
-        <p class="text-h4 text--primary">{{pessoa.name}}</p>
-        <p>{{'Height: '+ pessoa.height + " cm"}}</p>
+        <p class="text-h4 text--primary">{{filme.title}}</p>
+        <p>{{'Ep. Number: '+ filme.episode_id}}</p>
         <div class="text--primary">
-          {{'Mass: '+ pessoa.mass + " Kg"}}<br>
-          {{'Hair Color: '+pessoa.hair_color}}<br>
-          {{"Skin Color: "+ pessoa.skin_color}} <br>
-          {{'Eye Color: '+ pessoa.eye_color}} <br>
-          {{'Birth Year: '+ pessoa.birth_year}}<br>
-          {{'Gender: '+ pessoa.gender}}<br>
+          {{'Director: '+ filme.director + " Kg"}}<br>
+          {{'Producer: '+filme.producer}}<br>
+          {{"Release Date: "+ filme.release_date}} <br>
         </div>
       </v-card-text>
       <v-card-actions>
         <v-btn text color="teal accent-4" 
-            @click="getExternos(pessoa.homeworld, pessoa.films, pessoa.species ,pessoa.vehicles, pessoa.starships)">
+            @click="getExternos(filme.planets, filme.characters, filme.species ,filme.vehicles, filme.starships)">
           Ligações Externas
         </v-btn>
       </v-card-actions>
@@ -28,18 +25,20 @@
         >
           <v-card-text class="pb-0">
             
-            <p class="text-h4 text--primary mt-4">Terra Natal</p>
+            <p class="text-h4 text--primary mt-4">Planetas</p>
             
-            <p class="text-subtitle-1 mb-0">
-              {{$store.state.mundoExterno}}
+            <p v-for="planeta in $store.state.mundoExterno" 
+              :key="planeta"
+              class="text-subtitle-1 mb-0">
+              {{planeta}}
             </p>
 
-            <p class="text-h4 text--primary mt-4">Filmes</p>
+            <p class="text-h4 text--primary mt-4">Personagens</p>
             
-            <p v-for="filme in $store.state.filmeExterno" 
-              :key="filme"
+            <p v-for="char in $store.state.pessoaExterna" 
+              :key="char"
               class="text-subtitle-1 mb-0">
-              {{filme}}
+              {{char}}
             </p>
 
             <p class="text-h4 text--primary mt-4">Espécie</p>
@@ -81,37 +80,39 @@
 import {mapState} from 'vuex'
 
 export default {
-  name: "CardPessoa",
+  name: "CardFilme",
   data: () => ({
     reveal: false,
   }),
   props: {
     title: String,
-    pessoa: Object,
+    filme: Object,
     idCard : String,
   },
   methods: {
-    getExternos(mundo, filmes, especies, veiculos, naves){
+    getExternos(mundos, pessoas, especies, veiculos, naves){
       //revela o card
       this.$store.commit("UPDATE_GLOBAL_CARD", this.idCard)
       this.reveal = true
 
     //consulta mundo externamente
+    const listaMundos = []
+       mundos.forEach(mundo => {
         fetch(mundo)
           .then(r => r.json())
-          .then(rj => {
-              this.$store.dispatch("fetchMundoExterno", rj.name)
-          })
-
-
-    //consulta filmes externamente
-      const listaFilmes = []
-      filmes.forEach(filme => {
-        fetch(filme)
-          .then(r => r.json())
-          .then(rj => listaFilmes.push(rj.title))
+          .then(rj => listaMundos.push(rj.name))
       });
-      this.$store.dispatch("fetchFilmesExternos", listaFilmes)
+      this.$store.dispatch("fetchMundoExterno", listaMundos)
+
+
+    //consulta as pessoas externamente
+      const listaPessoas = []
+      pessoas.forEach(pessoa => {
+        fetch(pessoa)
+          .then(r => r.json())
+          .then(rj => listaPessoas.push(rj.name))
+      });
+      this.$store.dispatch("fetchPessoasExternas", listaPessoas)
 
     //consulta especies externamente
       const listaEspecies = []

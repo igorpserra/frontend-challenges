@@ -61,7 +61,6 @@ export default {
   name: "CardPlaneta",
   data: () => ({
     reveal: false,
-    moradores : [],
   }),
   props: {
     title: String,
