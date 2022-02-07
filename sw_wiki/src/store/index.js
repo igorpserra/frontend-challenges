@@ -13,6 +13,10 @@ export default new Vuex.Store({
     navesResponse: null,
     nave: null,
 
+    //variaveis de veiculo
+    veiculosResponse: null,
+    veiculo: null,
+
     //variaveis de pessoa
     pessoasResponse: null,
     pessoa: null,
@@ -42,6 +46,9 @@ export default new Vuex.Store({
     },
     UPDATE_NAVES(state, payload){
       state.navesResponse = payload
+    },
+    UPDATE_VEICULOS(state, payload){
+      state.veiculosResponse = payload
     },
     UPDATE_PESSOAS(state, payload){
       state.pessoasResponse = payload
@@ -113,6 +120,27 @@ export default new Vuex.Store({
     },
 
     //ACOES REFERENTES A PAGINA DE VEICULOS
+    fetchVeiculos(context, url){
+      fetch(url)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_VEICULOS", rj)
+        })
+    },
+    nextPageVeiculos(context){
+      fetch(context.state.veiculosResponse.next)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_VEICULOS", rj)
+        })
+    },
+    prevPageVeiculos(context){
+      fetch(context.state.veiculosResponse.previous)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_VEICULOS", rj)
+        })
+    },
 
     //ACOES REFERENTES A PAGINA DE PESSOAS
     fetchPessoas(context, url){
