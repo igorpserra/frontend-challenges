@@ -13,15 +13,22 @@ export default new Vuex.Store({
     navesResponse: null,
     nave: null,
 
+    //variaveis de pessoa
+    pessoasResponse: null,
+    pessoa: null,
+
     //variavel de controle dos card global
     globalCard : null,
 
     //variaveis para consultas externas
     pessoaExterna: null,
     filmeExterno: null,
+    especieExterna: null,
+    veiculoExterno: null,
+    naveExterna: null,
+    mundoExterno: null,
 
-    pessoasResponse: null,
-    pessoa: null,
+
   },
   mutations: {
     UPDATE_GLOBAL_CARD(state, payload){
@@ -36,12 +43,27 @@ export default new Vuex.Store({
     UPDATE_NAVES(state, payload){
       state.navesResponse = payload
     },
+    UPDATE_PESSOAS(state, payload){
+      state.pessoasResponse = payload
+    },
     UPDATE_PESSOA_EXTERNA(state, payload){
       state.pessoaExterna = payload
     },
     UPDATE_FILME_EXTERNO(state, payload){
       state.filmeExterno = payload
-    }
+    },
+    UPDATE_ESPECIE_EXTERNA(state, payload){
+      state.especieExterna = payload
+    },
+    UPDATE_VEICULO_EXTERNO(state, payload){
+      state.veiculoExterno = payload
+    },
+    UPDATE_NAVE_EXTERNA(state, payload){
+      state.naveExterna = payload
+    },
+    UPDATE_MUNDO_EXTERNO(state, payload){
+      state.mundoExterno = payload
+    },
   },
   actions: {
     //AÇOES REFERENTES A PAGINA DE PLANETAS
@@ -91,12 +113,27 @@ export default new Vuex.Store({
     },
 
     //ACOES REFERENTES A PAGINA DE VEICULOS
+
     //ACOES REFERENTES A PAGINA DE PESSOAS
-    async fetchPessoa(context, url){
+    fetchPessoas(context, url){
       fetch(url)
         .then(resp => resp.json())
-        .then(resp => {
-          context.commit("UPDATE_PESSOA_EXTERNA", resp)
+        .then(rj => {
+          context.commit("UPDATE_PESSOAS", rj)
+        })
+    },
+    nextPagePessoas(context){
+      fetch(context.state.pessoasResponse.next)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_PESSOAS", rj)
+        })
+    },
+    prevPagePessoas(context){
+      fetch(context.state.pessoasResponse.previous)
+        .then(resp => resp.json())
+        .then(rj => {
+          context.commit("UPDATE_PESSOAS", rj)
         })
     },
 
@@ -106,6 +143,18 @@ export default new Vuex.Store({
     },
     async fetchFilmesExternos(context, listaFilmes){
       context.commit("UPDATE_FILME_EXTERNO", listaFilmes)
+    },
+    async fetchEspeciesExternas(context, listaEspecies){
+      context.commit("UPDATE_ESPECIE_EXTERNA", listaEspecies)
+    },
+    async fetchVeiculosExternos(context, listaVeiculos){
+      context.commit("UPDATE_VEICULO_EXTERNO", listaVeiculos)
+    },
+    async fetchNavesExternas(context, listaNaves){
+      context.commit("UPDATE_NAVE_EXTERNA", listaNaves)
+    },
+    async fetchMundoExterno(context, mundoExterno){
+      context.commit("UPDATE_MUNDO_EXTERNO", mundoExterno)
     }
   },
   modules: {
